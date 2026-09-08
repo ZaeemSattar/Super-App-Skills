@@ -1,0 +1,296 @@
+---
+title: "Using scss variables"
+source_url: https://miniapp.neuxnet.com/component/uniui/uni-sass.html
+---
+`uni-scss` is a set of global styles provided by `uni-ui`, through some simple class names and `sass` variables, to achieve simple page layout operations, such as color, margins, rounded corners, etc.
+
+##  Using scss variables
+
+After installing the plugin, you need to import the variable file in the `uni.scss` file in the root directory of the project, you can use or modify the corresponding `scss` variable, the variable mainly defines the theme color, and more content will be added later.
+
+```
+/* 需要放到文件最上面 */
+@import '@/uni_modules/uni-scss/variables.scss';
+
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+// main color
+$uni-primary: #2979ff;
+$uni-primary-disable:mix(#fff,$uni-primary,50%);
+$uni-primary-light: mix(#fff,$uni-primary,80%);
+
+// secondary color
+// Scene colors other than the main color need to be used in different scenes (for example, dangerous colors indicate dangerous operations).
+$uni-success: #18bc37;
+$uni-success-disable:mix(#fff,$uni-success,50%);
+$uni-success-light: mix(#fff,$uni-success,80%);
+
+$uni-warning: #f3a73f;
+$uni-warning-disable:mix(#fff,$uni-warning,50%);
+$uni-warning-light: mix(#fff,$uni-warning,80%);
+
+$uni-error: #e43d33;
+$uni-error-disable:mix(#fff,$uni-error,50%);
+$uni-error-light: mix(#fff,$uni-error,80%);
+
+$uni-info: #8f939c;
+$uni-info-disable:mix(#fff,$uni-info,50%);
+$uni-info-light: mix(#fff,$uni-info,80%);
+
+// neutral color
+// Neutral colors are used for text, background and border colors. The hierarchy is expressed by using different neutral colors.
+$uni-main-color: #3a3a3a; 			// 主要文字
+$uni-base-color: #6a6a6a;			// 常规文字
+$uni-secondary-color: #909399;	// 次要文字
+$uni-extra-color: #c7c7c7;			// 辅助说明
+
+// border color
+$uni-border-1: #F0F0F0;
+$uni-border-2: #EDEDED;
+$uni-border-3: #DCDCDC;
+$uni-border-4: #B9B9B9;
+
+// regular color
+$uni-black: #000000;
+$uni-white: #ffffff;
+$uni-transparent: rgba($color: #000000, $alpha: 0);
+
+// background color
+$uni-bg-color: #f7f7f7;
+
+/* 水平间距 */
+$uni-spacing-sm: 8px;
+$uni-spacing-base: 15px;
+$uni-spacing-lg: 30px;
+
+// shadow
+$uni-shadow-sm:0 0 5px rgba($color: #d8d8d8, $alpha: 0.5);
+$uni-shadow-base:0 1px 8px 1px rgba($color: #a5a5a5, $alpha: 0.2);
+$uni-shadow-lg:0px 1px 10px 2px rgba($color: #a5a4a4, $alpha: 0.5);
+
+// mask
+$uni-mask: rgba($color: #000000, $alpha: 0.4);
+
+```
+
+##  use class name
+
+uni-ui.scss also provides a set of auxiliary styles for users to complete quick layouts. The user needs to decide whether to use , if it is used, the css will increase by about `27kb` Use in App.vue `<style lang='scss'>` to import
+
+```
+@import '@/uni_modules/uni-scss';
+```
+
+###  color
+
+For the foreground color, you can directly use the class with the same name as the variable name to quickly apply the `color` style to the element
+
+example:
+
+```
+<view class="uni-primary">主色</view>
+<view class="uni-success">成功色</view>
+<view class="uni-warning">警告色</view>
+<view class="uni-error">错误色</view>
+```
+
+The background color can be added to the variable name above with `-bg` to quickly apply the `background-color` style to the element
+
+example:
+
+```
+<view class="uni-primary-bg">主色</view>
+<view class="uni-success-bg">成功色</view>
+<view class="uni-warning-bg">警告色</view>
+<view class="uni-error-bg">错误色</view>
+```
+
+###  border radius
+
+Quickly apply the `border-radius` style to an element using the border-radius helper style
+
+The rule is `uni-radius-${direction}-${size}`
+
+If you want four sides, you don't need to specify `direction`
+
+**direction** is as follows
+
+The border radius can be configured per edge by using the `t, r, b, l` built-in classes, for example: `uni-radius-t`, `uni-radius-b-lg`
+
+-   t top left + top right
+-   r top right + bottom right
+-   b bottom left + bottom right
+-   l top left + bottom left
+
+The border radius can be configured on each corner by using the `tl, tr, br, bl` built-in classes, for example: `uni-radius-tl`, `uni-radius-br-lg`
+
+-   tl top left
+-   tr top right
+-   bl bottom left
+-   br lower right
+
+**size** 的值如下 The values of **size** are as follows
+
+Based on the rounded dimensions of the `$border-radius-root` variable, which defaults to 0.25rpx.
+
+-   null use default size (ignorable)
+-   0 cleans up all rounded corners
+-   sm default / 2 -lg default value \* 2
+-   pill 9999px
+-   circle 50% (not valid under nvue)
+
+Modify default values in uni.scss
+
+```
+$uni-radius-root:20px;
+$uni-radius: (
+	0: 0,
+	'sm': $uni-radius-root / 2,
+	null: $uni-radius-root,
+	'lg': $uni-radius-root * 2,
+	'xl': $uni-radius-root * 6,
+	'pill': 9999px,
+	'circle': 50%
+);
+```
+
+例： example:
+
+```
+<view class="uni-radius-tl">设置左上圆角</view>
+<view class="uni-radius-br">设置右下圆角</view>
+```
+
+###  间距
+
+###  Spacing
+
+使用间距辅助类对元素快速应用 `margin` 或 `padding` 样式， 范围是从 0 到 16。 Quickly apply a `margin` or `padding` style to an element using the spacing helper class, ranging from 0 to 16.
+
+规则为 `uni-${property}${direction}-${size}` The rule is `uni-${property}${direction}-${size}`
+
+**property** 应用间距类型: **property** Application spacing type:
+
+-   m - 应用 margin
+-   m - apply margin
+-   p - 应用 padding
+-   p - apply padding
+
+**direction** 指定了该属性所应用的侧边: **direction** specifies the side to which the property applies:
+
+-   t - 应用 margin-top 和 padding-top 的间距
+-   t - the spacing to apply margin-top and padding-top
+-   r - 应用 margin-right 和 padding-right 的间距
+-   r - the spacing to apply margin-right and padding-right
+-   b - 应用 margin-bottom 和 padding-bottom 的间距
+-   b - the spacing to apply margin-bottom and padding-bottom
+-   l - 应用 margin-left 和 padding-left 的间距
+-   l - the spacing to apply margin-left and padding-left
+-   x - 应用 \*-left 和 \*-right 的间距
+-   x - applies the \*-left and \*-right spacing
+-   y - 应用 \*-top 和 \*-bottom 的间距
+-   y - applies the spacing of \*-top and \*-bottom
+-   a - 在所有方向应用该间距
+-   a - applies the spacing in all directions
+
+```
+<view class="uni-mt-2"></view>
+```
+
+**size** 以`4px`增量控制间距属性: **size** controls the spacing property in `4px` increments:
+
+-   0 - 通过设置为 0 来消除所有 margin 或 padding.
+-   0 - Remove any margin or padding by setting to 0.
+-   1 - 设置 margin 或 padding 为 4px
+-   1 - set margin or padding to 4px
+-   2 - 设置 margin 或 padding 为 8px
+-   2 - Set margin or padding to 8px
+-   3 - 设置 margin 或 padding 为 12px
+-   3 - Set margin or padding to 12px
+-   4 - 设置 margin 或 padding 为 16px
+-   4 - Set margin or padding to 16px
+-   5 - 设置 margin 或 padding 为 20px
+-   5 - Set margin or padding to 20px
+-   6 - 设置 margin 或 padding 为 24px
+-   6 - Set margin or padding to 24px
+-   7 - 设置 margin 或 padding 为 28px
+-   7 - Set margin or padding to 28px
+-   8 - 设置 margin 或 padding 为 32px
+-   8 - Set margin or padding to 32px
+-   9 - 设置 margin 或 padding 为 36px
+-   9 - Set margin or padding to 36px
+-   10 - 设置 margin 或 padding 为 40px
+-   10 - Set margin or padding to 40px
+-   11 - 设置 margin 或 padding 为 44px
+-   11 - Set margin or padding to 44px
+-   12 - 设置 margin 或 padding 为 48px
+-   12 - Set margin or padding to 48px
+-   13 - 设置 margin 或 padding 为 52px
+-   13 - Set margin or padding to 52px
+-   14 - 设置 margin 或 padding 为 56px
+-   14 - Set margin or padding to 56px
+-   15 - 设置 margin 或 padding 为 60px
+-   15 - Set margin or padding to 60px
+-   16 - 设置 margin 或 padding 为 64px
+-   16 - Set margin or padding to 64px
+-   n1 - 设置 margin 或 padding 为 -4px
+-   n1 - set margin or padding to -4px
+-   n2 - 设置 margin 或 padding 为 -8px
+-   n2 - set margin or padding to -8px
+-   n3 - 设置 margin 或 padding 为 -12px
+-   n3 - set margin or padding to -12px
+-   n4 - 设置 margin 或 padding 为 -16px
+-   n4 - set margin or padding to -16px
+-   n5 - 设置 margin 或 padding 为 -20px
+-   n5 - set margin or padding to -20px
+-   n6 - 设置 margin 或 padding 为 -24px
+-   n6 - set margin or padding to -24px
+-   n7 - 设置 margin 或 padding 为 -28px
+-   n7 - set margin or padding to -28px
+-   n8 - 设置 margin 或 padding 为 -32px
+-   n8 - set margin or padding to -32px
+-   n9 - 设置 margin 或 padding 为 -36px
+-   n9 - set margin or padding to -36px
+-   n10 - 设置 margin 或 padding 为 -40px
+-   n10 - set margin or padding to -40px
+-   n11 - 设置 margin 或 padding 为 -44px
+-   n11 - set margin or padding to -44px
+-   n12 - 设置 margin 或 padding 为 -48px
+-   n12 - set margin or padding to -48px
+-   n13 - 设置 margin 或 padding 为 -52px
+-   n13 - set margin or padding to -52px
+-   n14 - 设置 margin 或 padding 为 -56px
+-   n14 - set margin or padding to -56px
+-   n15 - 设置 margin 或 padding 为 -60px
+-   n15 - set margin or padding to -60px
+-   n16 - 设置 margin 或 padding 为 -64px
+-   n16 - set margin or padding to -64px
+
+```
+<!-- margin-top is 8px -->
+<view class="uni-mt-2"></view>
+<!-- Left and right margins are 8px-->
+<view class="uni-mx-2"></view>
+<!-- The top and bottom padding is 20px -->
+<view class="uni-py-5"></view>
+```
+
+在 uni.scss 中修改默认值 Modify default values in uni.scss
+
+```
+$uni-space-root:2;
+```
+
+**Notice:**
+
+-   In the nvue page, because of the weight problem, temporarily need to add the `container` class name in the outermost layer of the page, otherwise the style may not take effect
+    
+    ```
+    	<template>
+    		<view class="container">
+    			<view class="uni-ma-5">test</view>
+    		</view>
+    	<template>
+    
+    ```

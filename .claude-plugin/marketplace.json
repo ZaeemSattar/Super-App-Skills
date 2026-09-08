@@ -1,0 +1,16 @@
+{
+  "name": "superapp-skills",
+  "owner": {
+    "name": "MOI Super App"
+  },
+  "metadata": {
+    "description": "Shared Claude Code skills for building Mini Apps on the Neuxnet Super App platform."
+  },
+  "plugins": [
+    {
+      "name": "neuxnet-miniapp",
+      "source": "./plugins/neuxnet-miniapp",
+      "description": "Build, run, and ship Neuxnet Super App Mini Apps"
+    }
+  ]
+}

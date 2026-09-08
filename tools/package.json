@@ -1,0 +1,16 @@
+{
+  "name": "neuxnet-docs-mirror",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Mirrors the Neuxnet Mini App documentation site to Markdown for the neuxnet-miniapp skills pack.",
+  "scripts": {
+    "mirror": "node mirror-docs.mjs",
+    "routes": "node mirror-docs.mjs --routes-only"
+  },
+  "dependencies": {
+    "jsdom": "^24.1.1",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}

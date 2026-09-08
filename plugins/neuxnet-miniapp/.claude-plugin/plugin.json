@@ -1,0 +1,15 @@
+{
+  "name": "neuxnet-miniapp",
+  "version": "1.0.0",
+  "description": "Skills for building, running, and shipping Mini Apps on the Neuxnet Super App platform, with an offline mirror of the official documentation.",
+  "author": {
+    "name": "MOI Super App"
+  },
+  "keywords": [
+    "neuxnet",
+    "miniapp",
+    "super-app",
+    "uni-app",
+    "vue"
+  ]
+}
