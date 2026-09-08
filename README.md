@@ -6,10 +6,21 @@ This repo is a Claude Code **plugin marketplace**. Install it once and every dev
 
 ## Install
 
+Two routes — both deliver the same skills.
+
+### Claude Code plugin (recommended)
+
 ```
-/plugin marketplace add <this-repo-url>
+/plugin marketplace add https://github.com/ZaeemSattar/Super-App-Skills.git
 /plugin install neuxnet-miniapp@superapp-skills
 ```
+
+### VS Code extension
+
+Install **Neuxnet Super App Mini App Skills** from the Marketplace, then run
+**Neuxnet Mini App: Install Skills to ~/.claude** from the Command Palette. The
+extension also bundles the docs mirror for browsing inside the editor. See
+[extension/](extension/).
 
 Then just describe what you want. The skills load automatically:
 
@@ -27,7 +38,7 @@ Commit this to a project's `.claude/settings.json`. Teammates who trust the repo
 {
   "extraKnownMarketplaces": {
     "superapp-skills": {
-      "source": { "source": "git", "url": "<this-repo-url>" }
+      "source": { "source": "git", "url": "https://github.com/ZaeemSattar/Super-App-Skills.git" }
     }
   },
   "enabledPlugins": { "neuxnet-miniapp@superapp-skills": true }

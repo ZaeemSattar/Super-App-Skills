@@ -65,3 +65,29 @@ Then install the marketplace locally and confirm your skill loads on a realistic
 ```
 
 Bump `version` in `plugin.json` for anything users would notice.
+
+## Publishing the VS Code extension
+
+The extension in `extension/` bundles the same skills and docs mirror. Its
+`skills/` and `references/` directories are **generated** by `sync-payload.mjs`
+and are gitignored — `plugins/neuxnet-miniapp/` stays the only place either is
+edited.
+
+One-time setup:
+
+1. Create a publisher at https://marketplace.visualstudio.com/manage.
+2. Create an Azure DevOps Personal Access Token with **Organization: All
+   accessible organizations** and scope **Marketplace > Manage**.
+3. `npx @vscode/vsce login ZaeemSattar` and paste the PAT.
+
+Release:
+
+```bash
+cd extension
+npm run package                 # sync payload + build the .vsix
+npx @vscode/vsce ls --no-dependencies | grep -c '^skills/'   # sanity: payload present
+npm run publish                 # or: npx @vscode/vsce publish minor
+```
+
+Bump `version` in `extension/package.json` and add a `CHANGELOG.md` entry first —
+the Marketplace rejects a republish of an existing version.

@@ -1,0 +1,66 @@
+{
+  "name": "neuxnet-miniapp-skills",
+  "displayName": "Neuxnet Super App Mini App Skills",
+  "description": "Claude Code skills and a complete offline documentation mirror for building Mini Apps on the Neuxnet Super App platform.",
+  "version": "1.0.0",
+  "publisher": "ZaeemSattar",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "neuxnet",
+    "miniapp",
+    "super-app",
+    "uni-app",
+    "claude"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZaeemSattar/Super-App-Skills.git"
+  },
+  "homepage": "https://github.com/ZaeemSattar/Super-App-Skills#readme",
+  "bugs": {
+    "url": "https://github.com/ZaeemSattar/Super-App-Skills/issues"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "main": "./extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "neuxnetMiniapp.installSkills",
+        "title": "Install Skills to ~/.claude",
+        "category": "Neuxnet Mini App"
+      },
+      {
+        "command": "neuxnetMiniapp.browseDocs",
+        "title": "Browse Documentation",
+        "category": "Neuxnet Mini App"
+      },
+      {
+        "command": "neuxnetMiniapp.openSkill",
+        "title": "Open a Skill",
+        "category": "Neuxnet Mini App"
+      }
+    ]
+  },
+  "scripts": {
+    "sync": "node sync-payload.mjs",
+    "vscode:prepublish": "node sync-payload.mjs",
+    "package": "node sync-payload.mjs && vsce package --no-dependencies",
+    "publish": "node sync-payload.mjs && vsce publish --no-dependencies"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.9.2"
+  }
+}

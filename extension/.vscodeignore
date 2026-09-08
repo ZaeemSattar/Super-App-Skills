@@ -1,0 +1,8 @@
+.vscode/**
+.github/**
+node_modules/**
+*.vsix
+.gitignore
+.vscodeignore
+sync-payload.mjs
+**/*.map
