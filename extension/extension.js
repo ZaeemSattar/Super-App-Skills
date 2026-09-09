@@ -115,8 +115,9 @@ class SkillsProvider {
 
   refresh() {
     this._onDidChangeTreeData.fire()
-    // The panel may be showing the same state; keep the two surfaces in step.
+    // The panel and status bar may be showing the same state; keep them in step.
     refreshDashboard().catch(() => {})
+    refreshStatus(this.context).catch(() => {})
   }
 
   getTreeItem(item) {
@@ -133,7 +134,7 @@ class SkillsProvider {
       target.label,
       vscode.TreeItemCollapsibleState.None,
     )
-    header.description = target.description
+    header.description = `${target.description}  ·  click to change`
     header.tooltip = new vscode.MarkdownString(
       `Skills install to \`${target.uri.fsPath}\` on ${describeMachine()}.\n\nClick to change.`,
     )
@@ -141,9 +142,26 @@ class SkillsProvider {
     header.contextValue = 'target'
     header.command = { command: 'neuxnetMiniapp.setTarget', title: 'Change Install Location' }
 
+    const flags = await Promise.all(
+      names.map((name) => exists(vscode.Uri.joinPath(target.uri, name))),
+    )
+    const missing = flags.filter((f) => !f).length
+
+    // A one-click row beats hunting for the toolbar icon, and it disappears
+    // once there is nothing left to install.
+    const action = new vscode.TreeItem(
+      missing === names.length ? 'Install all skills here' : `Install ${missing} missing skill${missing === 1 ? '' : 's'}`,
+      vscode.TreeItemCollapsibleState.None,
+    )
+    action.iconPath = new vscode.ThemeIcon('cloud-download', new vscode.ThemeColor('charts.blue'))
+    action.description = `into ${target.label}`
+    action.tooltip = `Install the bundled Mini App skills into ${target.uri.fsPath}`
+    action.contextValue = 'install-all'
+    action.command = { command: 'neuxnetMiniapp.installAll', title: 'Install All Skills' }
+
     const skills = await Promise.all(
-      names.map(async (name) => {
-        const installed = await exists(vscode.Uri.joinPath(target.uri, name))
+      names.map(async (name, i) => {
+        const installed = flags[i]
         const summary = await skillSummary(this.context, name)
 
         const item = new vscode.TreeItem(name, vscode.TreeItemCollapsibleState.None)
@@ -164,7 +182,7 @@ class SkillsProvider {
       }),
     )
 
-    return [header, ...skills]
+    return missing > 0 ? [header, action, ...skills] : [header, ...skills]
   }
 }
 
@@ -580,20 +598,71 @@ async function showDashboard(context, provider) {
 }
 
 /**
- * Nudges first-time users once. Without this the extension is silent on install
- * and looks broken -- the sidebar is easy to miss in a crowded activity bar.
+ * Counts how many bundled skills are present in the current target, so the
+ * status bar and the greeting can both speak in terms of what this project
+ * actually has rather than what was installed somewhere once.
+ */
+async function installedCount(context) {
+  const target = resolveTarget(context)
+  const names = await listBundledSkills(context)
+  const flags = await Promise.all(names.map((name) => exists(vscode.Uri.joinPath(target.uri, name))))
+  return { installed: flags.filter(Boolean).length, total: names.length, target }
+}
+
+/**
+ * Always-visible entry point. The activity bar icon is easy to lose in a
+ * crowded rail, and the command palette needs a name you already know -- the
+ * status bar is the one surface that is discoverable from any project.
+ */
+let status = null
+
+async function refreshStatus(context) {
+  if (!status) return
+  let counts
+  try {
+    counts = await installedCount(context)
+  } catch {
+    return
+  }
+
+  const complete = counts.total > 0 && counts.installed === counts.total
+  status.text = complete ? '$(check) 974 Skills' : `$(cloud-download) 974 Skills ${counts.installed}/${counts.total}`
+  status.tooltip = new vscode.MarkdownString(
+    `**974 Super App Skills**\n\n${counts.installed} of ${counts.total} installed in \`${counts.target.label}\`.\n\nClick to open the Skills Panel and install them into this project.`,
+  )
+  status.backgroundColor = counts.installed === 0
+    ? new vscode.ThemeColor('statusBarItem.warningBackground')
+    : undefined
+  status.show()
+}
+
+/**
+ * Offers the skills once per project, not once per machine. Opening a second
+ * project is exactly the moment a user needs the install prompt again, and the
+ * old global flag meant they never saw it twice.
  */
 const GREETED_KEY = 'neuxnetMiniapp.greeted'
 
+function greetedKeyForWorkspace() {
+  const root = workspaceRoot()
+  return root ? `${GREETED_KEY}:${root.toString()}` : GREETED_KEY
+}
+
 async function maybeGreet(context) {
-  if (context.globalState.get(GREETED_KEY)) return
-  await context.globalState.update(GREETED_KEY, true)
+  const key = greetedKeyForWorkspace()
+  if (context.globalState.get(key)) return
+
+  // Nothing to offer if this project already has everything.
+  const counts = await installedCount(context)
+  if (counts.total > 0 && counts.installed === counts.total) return
+
+  await context.globalState.update(key, true)
 
   const target = resolveTarget(context)
   const choice = await vscode.window.showInformationMessage(
-    `974 Super App Skills is ready. Install the Mini App skills to ${target.label} so Claude Code can use them?`,
-    'Open Skills Panel',
+    `974 Super App Skills: install the Mini App skills into ${target.label} so Claude Code can use them here?`,
     'Install All',
+    'Open Skills Panel',
   )
 
   if (choice === 'Install All') {
@@ -617,7 +686,13 @@ function guard(fn) {
 function activate(context) {
   const provider = new SkillsProvider(context)
 
+  status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100)
+  status.command = 'neuxnetMiniapp.showDashboard'
+  status.name = '974 Super App Skills'
+  status.text = '$(cloud-download) 974 Skills'
+
   context.subscriptions.push(
+    status,
     vscode.window.registerTreeDataProvider('neuxnetMiniapp.skills', provider),
     vscode.commands.registerCommand('neuxnetMiniapp.showDashboard', guard(() => showDashboard(context, provider))),
     vscode.commands.registerCommand('neuxnetMiniapp.installAll', guard(() => installAll(context, provider))),
@@ -630,12 +705,18 @@ function activate(context) {
     vscode.commands.registerCommand('neuxnetMiniapp.browseDocs', guard(() => browseDocs(context))),
     // Installing outside VS Code (or a teammate committing .claude/skills)
     // should still be reflected in the badges.
-    vscode.workspace.onDidChangeWorkspaceFolders(() => provider.refresh()),
+    vscode.workspace.onDidChangeWorkspaceFolders(() => {
+      provider.refresh()
+      maybeGreet(context).catch(() => {})
+    }),
   )
 
+  refreshStatus(context).catch(() => {})
   maybeGreet(context).catch(() => {})
 }
 
-function deactivate() {}
+function deactivate() {
+  status = null
+}
 
 module.exports = { activate, deactivate }

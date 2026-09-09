@@ -1,0 +1,17 @@
+{
+  "name": "super-app-skills-workspace",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo for the Neuxnet Super App Mini App skills: Claude Code plugin, npm CLI, and VS Code extension.",
+  "license": "MIT",
+  "author": "Zaeem Sattar",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "build:vscode": "node tools/build.mjs vscode",
+    "build:cli": "node tools/build.mjs cli",
+    "build:plugin": "node tools/build.mjs plugin",
+    "version:set": "node tools/version.mjs",
+    "clean": "rm -rf build"
+  }
+}

@@ -6,14 +6,34 @@ This repo is a Claude Code **plugin marketplace**. Install it once and every dev
 
 ## Install
 
-Two routes — both deliver the same skills.
+Four routes — all deliver the same skills.
 
-### Claude Code plugin (recommended)
+### npm / terminal (fastest)
+
+Works in any terminal, no Claude Code plugin system needed:
+
+```sh
+npx super-app-skills install            # this project (.claude/skills)
+npx super-app-skills install --global   # every project (~/.claude/skills)
+npx super-app-skills list               # see what's available and installed
+```
+
+See [cli/](cli/) for all commands and flags.
+
+### Claude Code plugin (recommended for teams)
 
 ```
 /plugin marketplace add https://github.com/ZaeemSattar/Super-App-Skills.git
 /plugin install neuxnet-miniapp@superapp-skills
 ```
+
+### Shell one-liner (no npm)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/ZaeemSattar/Super-App-Skills/main/install/install.sh | sh
+```
+
+Add `-s -- --global` to install into `~/.claude/skills` instead of the current project.
 
 ### VS Code extension
 
@@ -44,6 +64,17 @@ Commit this to a project's `.claude/settings.json`. Teammates who trust the repo
   "enabledPlugins": { "neuxnet-miniapp@superapp-skills": true }
 }
 ```
+
+## Building
+
+All distributables are produced into `build/`, one subfolder per target, at a single shared version:
+
+```sh
+npm run version:set -- minor   # bump extension, CLI and plugin together
+npm run build                  # -> build/{vscode,cli,plugin}/ + manifest.json
+```
+
+See [docs/BUILDING.md](docs/BUILDING.md) for the release checklist.
 
 ## What's included
 

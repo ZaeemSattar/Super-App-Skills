@@ -1,6 +1,19 @@
 node_modules/
 .DS_Store
+
+# Locally installed copies of our own skills (source lives in plugins/)
+.claude/skills/
+.claude/settings.local.json
 *.log
 extension/skills/
 extension/references/
 extension/*.vsix
+*.vsix
+
+cli/skills/
+cli/references/
+cli/*.tgz
+
+# Build artifacts are reproducible from source; distributed via npm,
+# the VS Code Marketplace and GitHub Releases.
+build/

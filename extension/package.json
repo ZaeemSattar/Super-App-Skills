@@ -2,7 +2,7 @@
   "name": "super-app-skills-by-zaeem",
   "displayName": "974 Super app skills",
   "description": "Claude Code skills and a complete offline documentation mirror for building Mini Apps on the Neuxnet Super App platform.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "publisher": "ZaeemSattar",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -60,13 +60,13 @@
     "commands": [
       {
         "command": "neuxnetMiniapp.showDashboard",
-        "title": "Open Skills Panel",
+        "title": "Install Skills into a Project (Open Skills Panel)",
         "category": "974 Super app skills",
         "icon": "$(window)"
       },
       {
         "command": "neuxnetMiniapp.installAll",
-        "title": "Install All Skills",
+        "title": "Install All Skills into This Project",
         "category": "974 Super app skills",
         "icon": "$(cloud-download)"
       },
@@ -84,7 +84,7 @@
       },
       {
         "command": "neuxnetMiniapp.setTarget",
-        "title": "Change Install Location",
+        "title": "Change Install Location (This Project / All Projects)",
         "category": "974 Super app skills",
         "icon": "$(settings-gear)"
       },
@@ -150,13 +150,27 @@
           "when": "view == neuxnetMiniapp.skills && viewItem == skill-installed",
           "group": "inline@2"
         }
+      ],
+      "commandPalette": [
+        {
+          "command": "neuxnetMiniapp.installOne",
+          "when": "false"
+        },
+        {
+          "command": "neuxnetMiniapp.uninstallOne",
+          "when": "false"
+        },
+        {
+          "command": "neuxnetMiniapp.openSkill",
+          "when": "false"
+        }
       ]
     },
     "walkthroughs": [
       {
         "id": "neuxnetMiniapp.getStarted",
         "title": "Use these skills with Claude Code",
-        "description": "Install the Mini App skills, then just talk to Claude normally \u2014 it picks the right skill on its own.",
+        "description": "Install the Mini App skills, then just talk to Claude normally — it picks the right skill on its own.",
         "steps": [
           {
             "id": "install",
@@ -183,6 +197,13 @@
             }
           }
         ]
+      }
+    ],
+    "viewsWelcome": [
+      {
+        "view": "neuxnetMiniapp.skills",
+        "contents": "Open a project folder, then install the 974 Super App skills into it.\n[Open Folder](command:vscode.openFolder)\n[Open Skills Panel](command:neuxnetMiniapp.showDashboard)",
+        "when": "workbenchState == empty"
       }
     ]
   },

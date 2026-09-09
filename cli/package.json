@@ -1,0 +1,42 @@
+{
+  "name": "super-app-skills",
+  "version": "1.3.0",
+  "description": "Install the Neuxnet Super App Mini App skills for Claude Code from your terminal.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Zaeem Sattar",
+  "bin": {
+    "super-app-skills": "bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "skills",
+    "references",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "neuxnet",
+    "miniapp",
+    "super-app",
+    "uni-app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZaeemSattar/Super-App-Skills.git",
+    "directory": "cli"
+  },
+  "homepage": "https://github.com/ZaeemSattar/Super-App-Skills#readme",
+  "bugs": {
+    "url": "https://github.com/ZaeemSattar/Super-App-Skills/issues"
+  },
+  "scripts": {
+    "sync": "node ../tools/sync-cli-payload.mjs",
+    "prepack": "node ../tools/sync-cli-payload.mjs"
+  }
+}
