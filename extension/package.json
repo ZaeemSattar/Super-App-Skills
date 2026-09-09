@@ -1,8 +1,8 @@
 {
-  "name": "neuxnet-miniapp-skills",
-  "displayName": "Neuxnet Super App Mini App Skills",
+  "name": "super-app-skills-by-zaeem",
+  "displayName": "974 Super app skills",
   "description": "Claude Code skills and a complete offline documentation mirror for building Mini Apps on the Neuxnet Super App platform.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "ZaeemSattar",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -35,22 +35,154 @@
   "extensionKind": [
     "workspace"
   ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "neuxnetMiniapp",
+          "title": "974 Super App Skills",
+          "icon": "images/activitybar.svg"
+        }
+      ]
+    },
+    "views": {
+      "neuxnetMiniapp": [
+        {
+          "id": "neuxnetMiniapp.skills",
+          "name": "Skills",
+          "icon": "images/activitybar.svg"
+        }
+      ]
+    },
     "commands": [
       {
+        "command": "neuxnetMiniapp.showDashboard",
+        "title": "Open Skills Panel",
+        "category": "974 Super app skills",
+        "icon": "$(window)"
+      },
+      {
+        "command": "neuxnetMiniapp.installAll",
+        "title": "Install All Skills",
+        "category": "974 Super app skills",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "neuxnetMiniapp.installOne",
+        "title": "Install This Skill",
+        "category": "974 Super app skills",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "neuxnetMiniapp.uninstallOne",
+        "title": "Remove This Skill",
+        "category": "974 Super app skills",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "neuxnetMiniapp.setTarget",
+        "title": "Change Install Location",
+        "category": "974 Super app skills",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "neuxnetMiniapp.refresh",
+        "title": "Refresh",
+        "category": "974 Super app skills",
+        "icon": "$(refresh)"
+      },
+      {
         "command": "neuxnetMiniapp.installSkills",
-        "title": "Install Skills to ~/.claude",
-        "category": "Neuxnet Mini App"
+        "title": "Install Skills (Pick From List)",
+        "category": "974 Super app skills"
       },
       {
         "command": "neuxnetMiniapp.browseDocs",
         "title": "Browse Documentation",
-        "category": "Neuxnet Mini App"
+        "category": "974 Super app skills",
+        "icon": "$(book)"
       },
       {
         "command": "neuxnetMiniapp.openSkill",
         "title": "Open a Skill",
-        "category": "Neuxnet Mini App"
+        "category": "974 Super app skills"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "neuxnetMiniapp.showDashboard",
+          "when": "view == neuxnetMiniapp.skills",
+          "group": "navigation@0"
+        },
+        {
+          "command": "neuxnetMiniapp.installAll",
+          "when": "view == neuxnetMiniapp.skills",
+          "group": "navigation@1"
+        },
+        {
+          "command": "neuxnetMiniapp.browseDocs",
+          "when": "view == neuxnetMiniapp.skills",
+          "group": "navigation@2"
+        },
+        {
+          "command": "neuxnetMiniapp.setTarget",
+          "when": "view == neuxnetMiniapp.skills",
+          "group": "navigation@3"
+        },
+        {
+          "command": "neuxnetMiniapp.refresh",
+          "when": "view == neuxnetMiniapp.skills",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "neuxnetMiniapp.installOne",
+          "when": "view == neuxnetMiniapp.skills && viewItem =~ /^skill/",
+          "group": "inline@1"
+        },
+        {
+          "command": "neuxnetMiniapp.uninstallOne",
+          "when": "view == neuxnetMiniapp.skills && viewItem == skill-installed",
+          "group": "inline@2"
+        }
+      ]
+    },
+    "walkthroughs": [
+      {
+        "id": "neuxnetMiniapp.getStarted",
+        "title": "Use these skills with Claude Code",
+        "description": "Install the Mini App skills, then just talk to Claude normally \u2014 it picks the right skill on its own.",
+        "steps": [
+          {
+            "id": "install",
+            "title": "Install the skills",
+            "description": "Open the Skills Panel and click Install all. Skills land in .claude/skills so Claude Code can find them.\n[Open Skills Panel](command:neuxnetMiniapp.showDashboard)",
+            "media": {
+              "markdown": "images/walkthrough-install.md"
+            }
+          },
+          {
+            "id": "restart",
+            "title": "Restart Claude Code",
+            "description": "Claude Code scans for skills at startup, so restart it once after installing.",
+            "media": {
+              "markdown": "images/walkthrough-restart.md"
+            }
+          },
+          {
+            "id": "use",
+            "title": "Just ask Claude",
+            "description": "You never type a skill name. Say \"scaffold a new Neuxnet mini app\" or \"add checkout to this page\" and Claude loads the matching skill automatically.",
+            "media": {
+              "markdown": "images/walkthrough-use.md"
+            }
+          }
+        ]
       }
     ]
   },

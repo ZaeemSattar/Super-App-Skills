@@ -1,12 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- **New Skills Panel** — a full UI for the extension. Every skill appears as a card with its trigger description and a live installed/not-installed badge. Search by name or description, filter by state, and install or remove skills individually or all at once.
+- **Sidebar view** — a 974 Super App Skills container in the activity bar mirrors the panel for quick access, with inline install and remove buttons.
+- **Install into your project** — skills can now go to `<project>/.claude/skills` instead of only `~/.claude/skills`, so they can be committed and shared with your team. Project is the default when a folder is open; a toggle switches between the two.
+- **Getting-started walkthrough** — VS Code now opens a three-step guide after install, and a first-run notification points at the panel.
+- Removing an installed skill moves it to the trash rather than deleting outright.
+
 ## 1.0.0
 
-Initial release.
-
-- 12 Claude Code skills for Neuxnet Super App Mini App development, installable
-  into `~/.claude/skills` from the Command Palette.
-- Offline mirror of the Neuxnet Mini App documentation (403 pages), browsable in
-  VS Code's native Markdown preview.
-- Skills verified against `create-neu-miniapp@1.0.6` and `@neuxnet/*@3.0.0`,
-  including the places where the published docs disagree with the toolchain.
+- Initial release: 12 Mini App skills and a 403-page offline documentation mirror.

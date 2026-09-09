@@ -1,59 +1,177 @@
-# Neuxnet Super App Mini App Skills
+<div align="center">
 
-Claude Code skills and a complete offline documentation mirror for building **Mini Apps on the Neuxnet Super App platform**.
+# 974 Super App Skills
 
-Mini App development spans a lot of surface — a `neu`/Vite toolchain, Vue 3 SFCs, `pages.json` routing, `rpx` styling, platform APIs that behave differently in the browser than in the Super App, and a signed backend OpenAPI. This extension packages that knowledge as [Claude Code](https://claude.com/claude-code) skills, so Claude applies the right rules without being told, and ships the docs so you can read them without leaving the editor.
+### Build Neuxnet Mini Apps with Claude Code — without reading the docs first
 
-## Commands
+Twelve battle-tested [Claude Code](https://claude.com/claude-code) skills and a **403-page offline documentation mirror**, packaged so Claude already knows your platform.
 
-Open the Command Palette (`Ctrl/Cmd+Shift+P`):
+[![Marketplace](https://img.shields.io/visual-studio-marketplace/v/ZaeemSattar.super-app-skills-by-zaeem?style=for-the-badge&color=1e88e5&label=marketplace)](https://marketplace.visualstudio.com/items?itemName=ZaeemSattar.super-app-skills-by-zaeem)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/ZaeemSattar.super-app-skills-by-zaeem?style=for-the-badge&color=43a047)](https://marketplace.visualstudio.com/items?itemName=ZaeemSattar.super-app-skills-by-zaeem)
+[![License](https://img.shields.io/badge/license-MIT-orange?style=for-the-badge)](LICENSE)
 
-| Command | What it does |
-| --- | --- |
-| **Neuxnet Mini App: Install Skills to ~/.claude** | Copies the skills into `~/.claude/skills` so Claude Code loads them in every project |
-| **Neuxnet Mini App: Browse Documentation** | Searches 403 mirrored doc pages and opens one in Markdown preview |
-| **Neuxnet Mini App: Open a Skill** | Reads a skill's guidance directly |
+**12 skills** · **403 doc pages** · **3 signing helpers** · **zero configuration**
 
-Restart Claude Code after installing so it picks up the new skills.
+</div>
 
-> Under Remote SSH, WSL, Dev Containers or Codespaces the skills install to the **remote** home directory — the machine where Claude Code actually runs. The confirmation message tells you which host was written to.
+---
 
-## The skills
+## Why this exists
+
+Ask Claude to add checkout to a Mini App without these skills and you'll get plausible, wrong code — because the platform's own TypeScript types are inherited uni-app stubs that describe a **different payment API than the one Neuxnet actually runs**.
+
+That's not the only trap. Mini App development spans a `neu`/Vite toolchain, Vue 3 SFCs, `pages.json` routing, `rpx` styling, APIs that behave differently in a browser than in the Super App, and a signed backend OpenAPI. The published docs disagree with the shipped toolchain in at least five places.
+
+This extension encodes all of it as skills Claude loads automatically — so the right rules apply without you remembering to mention them.
+
+---
+
+## Quick start
+
+> **Three steps, about thirty seconds.**
+
+**1.** Click the **974 Super App Skills** icon in the activity bar
+**2.** Choose where skills go, then hit **Install all**
+**3.** Restart Claude Code
+
+Then just talk normally. You never type a skill name:
+
+| You say | Claude loads |
+| :--- | :--- |
+| *"scaffold a new Neuxnet mini app"* | `miniapp-create` |
+| *"add checkout to this page"* | `miniapp-payment` |
+| *"why is my notifyUrl callback not firing?"* | `miniapp-payment` |
+| *"set up login"* | `miniapp-auth` |
+| *"package this for release"* | `miniapp-build` |
+
+Need a specific one? Force it with a slash command — `/miniapp-payment`.
+
+---
+
+## The Skills Panel
+
+A real UI, not a command palette scavenger hunt.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  974 Super App Skills                                       │
+│  ─────────────────────────────────────────────────────────  │
+│  INSTALL LOCATION                                           │
+│  ┌───────────────────────┐  ┌───────────────────────┐       │
+│  │ ▸ my-app/.claude/…    │  │   ~/.claude/skills    │       │
+│  │   this project only   │  │   every project       │       │
+│  └───────────────────────┘  └───────────────────────┘       │
+│                                                             │
+│  🔍 Search skills…      [All ▾]  [Install all] [Docs]       │
+│                                                             │
+│  4 of 12 installed                                          │
+│  ● miniapp-create    Scaffolding, layout, appid  [installed]│
+│  ● miniapp-payment   requestPayment, callbacks   [installed]│
+│  ○ miniapp-auth      Login, auth codes, scopes    [Install] │
+│  ○ miniapp-ui        Components, rpx, easycom     [Install] │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- **Live install badges** — see at a glance what's active
+- **Search** by name or by what a skill actually covers
+- **One-click install or removal**, individually or all at once
+- **Click any skill** to read its full guidance before installing
+- **Safe by default** — overwriting an edited skill always asks first
+
+---
+
+## Where skills install
+
+Claude Code reads both locations. The panel toggles between them.
+
+| Location | Scope | Pick this when |
+| :--- | :--- | :--- |
+| **`<project>/.claude/skills`** | This project only | You want skills committed to the repo so your **whole team** gets them |
+| **`~/.claude/skills`** | Every project on the machine | You build Mini Apps across **several repos** |
+
+Project is the default whenever a folder is open.
+
+> **Remote development:** under Remote SSH, WSL, Dev Containers or Codespaces, skills install to the **remote** machine — where Claude Code actually runs. The panel names the host it writes to.
+
+---
+
+## What's covered
+
+**🚀 Getting started**
 
 | Skill | Covers |
-| --- | --- |
+| :--- | :--- |
 | `miniapp-create` | Scaffolding, project layout, `appid` |
 | `miniapp-run` | Dev server, H5 vs app platform, on-device QR preview |
+| `miniapp-docs` | Looking things up in the offline mirror |
+
+**🎨 Building the app**
+
+| Skill | Covers |
+| :--- | :--- |
 | `miniapp-page` | `pages.json`, routing, tabBar, lifecycle, subPackages |
 | `miniapp-ui` | Components, `rpx` sizing, styling, easycom, static assets |
 | `miniapp-api` | request, storage, media, device, UI feedback |
+
+**💳 Platform features**
+
+| Skill | Covers |
+| :--- | :--- |
 | `miniapp-auth` | Login, auth codes, scopes, user profile |
 | `miniapp-payment` | `requestPayment`, trade orders, status codes, callbacks |
 | `miniapp-push` | `sendNotify` and `sendActivity` |
+
+**🖥 Backend, shipping & quality**
+
+| Skill | Covers |
+| :--- | :--- |
 | `miniapp-serverside` | OpenAPI signing, OAuth exchange, endpoints |
 | `miniapp-build` | `.wgt` packaging, versioning, release checklist |
 | `miniapp-review` | Reviewing a Mini App against platform rules |
-| `miniapp-docs` | Looking things up in the offline mirror |
 
-The server-side skill also ships runnable request-signing helpers in **Node, Python and Java**, all verified to produce identical digests — signing is the most common backend integration failure.
+`miniapp-serverside` ships runnable request-signing helpers in **Node, Python and Java** — all three verified to produce identical digests. Signing is the single most common backend integration failure.
+
+---
 
 ## Verified against the real toolchain
 
-The skills were checked by scaffolding, building and running an actual project, not just by reading the docs. Where the two disagree, the skills follow the toolchain and say so:
+These skills were written by scaffolding, building and running an actual project — not by reading the docs. Where the two disagree, the skills follow reality and say so:
 
-| Docs say | Actually |
-| --- | --- |
-| `npm run dev:app` | Not a scaffolded script — use `npx neu -p app` |
-| Output in `dist/build/app-plus/` | `dist/build/app/` |
-| Sources at project root | Under `src/` |
-| Hooks from `@dcloudio/uni-app` | `@neuxnet/neu-app` |
-| `requestPayment({provider, orderInfo})` in the bundled types | Neuxnet uses `{name, country, currency, amount, transactionNo}` |
+| The docs say | What actually happens |
+| :--- | :--- |
+| `npm run dev:app` | Not a scaffolded script — use **`npx neu -p app`** |
+| Output in `dist/build/app-plus/` | **`dist/build/app/`** |
+| Sources at project root | Under **`src/`** |
+| Hooks from `@dcloudio/uni-app` | **`@neuxnet/neu-app`** |
+| `requestPayment({provider, orderInfo})` | Neuxnet uses **`{name, country, currency, amount, transactionNo}`** |
 
-That last one is a trap worth knowing: the bundled TypeScript types are inherited uni-app stubs, so editor autocomplete actively misleads you on payments.
+> ⚠️ **That last row is the expensive one.** The bundled TypeScript types are inherited uni-app stubs, so your editor's autocomplete will confidently suggest the wrong payment shape. Claude with `miniapp-payment` installed will not.
 
-## Also available as a Claude Code plugin
+---
 
-If your team uses the Claude Code plugin flow, you can skip this extension entirely:
+## Offline documentation
+
+403 Markdown pages mirrored from `miniapp.neuxnet.com`, searchable without leaving the editor — **Browse Documentation** in the panel or the Command Palette.
+
+Every page carries its canonical `source_url`. Pages under `component/`, most of `api/`, and `tutorial/` are upstream uni-app documentation republished by Neuxnet and machine-translated from Chinese. The Neuxnet-specific pages (`api/plugins/`, `serverside/`) are authoritative for Super App behaviour.
+
+---
+
+## Commands
+
+| Command | What it does |
+| :--- | :--- |
+| **Open Skills Panel** | The main UI — browse, install and remove |
+| **Install All Skills** | Installs everything without opening the panel |
+| **Change Install Location** | Switch between project and home directory |
+| **Browse Documentation** | Search 403 doc pages, open in Markdown preview |
+| **Open a Skill** | Read a skill's guidance directly |
+
+---
+
+## Prefer the plugin flow?
+
+If your team uses Claude Code plugins, skip the extension entirely:
 
 ```
 /plugin marketplace add https://github.com/ZaeemSattar/Super-App-Skills.git
@@ -62,14 +180,12 @@ If your team uses the Claude Code plugin flow, you can skip this extension entir
 
 Both routes deliver the same skills.
 
-## Documentation mirror
+---
 
-The bundled `references/` directory is a Markdown mirror of `https://miniapp.neuxnet.com`, each page carrying its canonical `source_url`. Pages under `component/`, most of `api/`, and `tutorial/` are upstream uni-app documentation republished by Neuxnet and machine-translated from Chinese; the Neuxnet-specific pages (`api/plugins/`, `serverside/`) are authoritative for Super App behaviour.
+<div align="center">
 
-## Source
+**[Source on GitHub](https://github.com/ZaeemSattar/Super-App-Skills)** · **[Report an issue](https://github.com/ZaeemSattar/Super-App-Skills/issues)** · MIT licensed
 
-[github.com/ZaeemSattar/Super-App-Skills](https://github.com/ZaeemSattar/Super-App-Skills)
+Built by [Zaeem Sattar](https://github.com/ZaeemSattar)
 
-## License
-
-MIT
+</div>
