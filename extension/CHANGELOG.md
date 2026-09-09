@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Republished with the Skills Panel, the per-project install target and the rewritten Marketplace listing from 1.1.0.
+
 ## 1.1.0
 
 - **New Skills Panel** — a full UI for the extension. Every skill appears as a card with its trigger description and a live installed/not-installed badge. Search by name or description, filter by state, and install or remove skills individually or all at once.
